@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" /> 
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>智慧宿舍</title>
+</head>
+<link rel="stylesheet" type="text/css" href="./bootstrap.css">
+<style type="text/css">
+@media only screen and (min-width: 430px) {
+	*{
+		margin: 0;
+	}
+	html {
+	   height: 100%;
+	   display: table;
+	}
+	body {
+	   display: table-cell;
+	   height: 100%;
+	   background: url(./bgd1.png) no-repeat fixed;
+	   background-size: 100%;
+	   background-position: center;
+	}
+	.main{
+		margin: 180px 0 0 440px;
+	}
+	.textmsg{
+		float: left;
+		width: 300px;
+		height: 400px;
+
+	}
+	.textmsg p{
+		text-align: center;
+		color: white;
+	}
+	.logo{
+		width: 80px;
+		height: 80px;
+		margin-left: 110px;
+	}
+	.app_name{
+		font-size: 2em;
+		font-weight: bold;
+	}
+	.version{
+		font-size: 1.2em;
+		margin-top: 28px;
+	}
+	/*right*/
+	.download{
+		float: right;
+		width: 300px;
+		height: 400px;
+		margin-left: 280px;
+	}
+	.download p{
+		text-align: center;
+		color: #666;
+	}
+	.btn{
+		text-align: center;
+		padding: 10px 50px;
+		background-color: #289ff4;
+		border-radius: 16px;
+		border: none;
+		color: #fff;
+		font-weight: bold;
+		margin-left: 74px;
+	}
+	.hint1{
+		margin: 20px 0;
+	}
+	.hint2{
+
+	}
+	#qrcode{
+		display: none;
+	}
+	.qrcode{
+		width: 100px;
+		height: 100px;
+		background-color: gray;
+		margin-left: 100px;
+		margin-top: 20px;
+	}
+	.modal{
+		display: none;
+	}
+}
+@media only screen and (max-width: 430px) {
+  *{
+		margin: 0;
+	}
+	html {
+	   height: 100%;
+	   display: table;
+	}
+	.main{
+		padding: 60px 40px;
+		width: 100%;
+		height: 100%;
+	}
+	.main .textmsg{
+		width: 300px;
+		height: 280px;
+		margin: auto;
+	}
+	.main .textmsg p{
+		text-align: center;
+		color: #333;
+	}
+	.logo{
+		width: 80px;
+		height: 80px;
+		margin-left: 110px;
+	}
+	.app_name{
+		font-size: 2em;
+		font-weight: bold;
+	}
+	.version{
+		font-size: 1.2em;
+		margin-top: 28px;
+	}
+	/*right*/
+	.download{
+		width: 300px;
+		height: 280px;
+		margin: -40px auto;
+		margin-bottom: 0
+	}
+	.download p{
+		text-align: center;
+		color: #666;
+	}
+	.main .btn{
+		text-align: center;
+		padding: 10px 50px;
+		background-color: #289ff4;
+		border-radius: 16px;
+		border: none;
+		color: #fff;
+		font-weight: bold;
+		margin-left: 74px;
+	}
+	.hint1{
+		margin: 20px 0;
+	}
+	.hint2{
+
+	}
+	#qrcode{
+		display: none;
+	}
+	.qrcode{
+		width: 100px;
+		height: 100px;
+		background-color: gray;
+		margin-left: 100px;
+		margin-top: 20px;
+	}
+}
+</style>
+<body>
+	<div class="main">
+		<div class="textmsg">
+			<img src="./sdmp_launcher_round.png" class="logo">
+			<p class="app_name">智慧宿舍</p>
+			<p class="version">版本：<span class="versiontxt"></span></p>
+		</div>
+		<div class="download">
+			<button class="btn" data-container="body" data-toggle="popover" data-placement="bottom" data-content="请在浏览器中打开该页面">点击安装</button>
+			<p class="hint1">适用于Android设备</p>
+			<img id="qrcode"></img>
+			<img class="qrcode"></img>
+			<p class="hint2">扫描二维码安装</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="./jquery.js"></script>
+<script type="text/javascript" src="./bootstrap.js"></script>
+<script type="text/javascript" src="./qrcode.min.js"></script>
+<script type="text/javascript">
+	//判断是否在微信打开
+	var wx= (function(){
+		return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+	})();
+	if(wx){
+	    $('[data-toggle="popover"]').popover();
+	}else{
+		//点击获取安装链接
+		$('.btn').click(function(){
+			$.getJSON('http://60.205.227.175/check_dorm_lock.php?callback=?',function(data){
+				var link = getJsonValue(data,'apkUrl');
+				console.log(link);
+				var $eleForm = $("<form method='get'></form>");
+	            $eleForm.attr("action",link);
+	            $(document.body).append($eleForm);
+	            //提交表单，实现下载
+	            $eleForm.submit();
+			});
+		});
+	}
+	//获取版本号，有跨域问题
+	$.getJSON('http://60.205.227.175/check_dorm_lock.php?callback=?',function(data){
+		var id = getJsonValue(data,'versionId');
+		console.log(id);
+		$('.versiontxt').html(id);
+	});
+
+	function getJsonValue(obj,name){
+        var result = null;
+        var value  = null;
+        for(var key in obj){        
+            value = obj[key];
+            if(key == name){
+	            return value;
+	        } else {
+	            if( typeof value == "object" ){
+	            result = getJsonValue(value,name);
+	            }
+	        }
+	    }
+	    return result;
+	}
+	// 获取二维码所需链接
+	var content = 'http://app.idm.ivisiontech.cn/';
+	var qrcode = $('#qrcode').qrcode({
+        text: utf16to8(content),
+        typeNumber: -1
+    }).hide();
+    var canvas = qrcode.find('canvas').get(0);
+    var dataurl = canvas.toDataURL('image/jpg');
+    $('.qrcode').attr('src', dataurl);
+
+    function utf16to8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for (i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            }
+        }
+        return out;
+    };
+</script>
+</html>
