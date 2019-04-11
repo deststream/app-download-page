@@ -89,6 +89,10 @@
 	.modal{
 		display: none;
 	}
+	.arrow{
+		position: absolute;
+		visibility: hidden;
+	}
 }
 @media only screen and (max-width: 430px) {
   *{
@@ -165,8 +169,8 @@
 	.arrow{
 		position: absolute;
 		top: 20px;
-		width: 100px;
-		height: 300px;
+		width: 83px;
+		height: 310px;
 		opacity: 0.8;
 		visibility: hidden;
 	}
@@ -181,7 +185,7 @@
 		</div>
 		<div class="download">
 			<button class="btn" data-container="body" data-toggle="popover" data-placement="bottom" data-content="请在浏览器中打开该页面">点击安装</button>
-			<img src="./arrow.png" class="arrow">
+			<img src="./arrow2.png" class="arrow">
 			<p class="hint1">适用于Android设备</p>
 			<img id="qrcode"></img>
 			<img class="qrcode"></img>
@@ -200,7 +204,9 @@
 	})();
 	if(wx){
 	    $('[data-toggle="popover"]').popover();
-	    $('.arrow').css('visibility','visible');
+	    $('.btn').click(function(){
+			$('.arrow').css('visibility','visible');
+	    });
 	}else{
 		//点击获取安装链接
 		$('.btn').click(function(){
