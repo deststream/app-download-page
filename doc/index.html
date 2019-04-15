@@ -283,7 +283,10 @@
 	var wx= (function(){
 		return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
 	})();
-	if(wx){
+	var qq= (function(){
+		return navigator.userAgent.toLowerCase().indexOf('qq') !== -1
+	})();
+	if(wx||qq){
 	    $('[data-toggle="popover"]').popover();
 	    $('.btn').click(function(){
 			$('.arrow').css('visibility','visible');
