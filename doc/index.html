@@ -306,7 +306,7 @@
 		});
 	}
 	//获取版本号，有跨域问题
-	$.getJSON('http://60.205.227.175/check_dorm_lock.php?callback=?',function(data){
+	$.getJSON('http://60.205.227.175/check_dorm_lock.php?type=1&callback=?',function(data){
 		var id = getJsonValue(data,'versionId');
 		console.log(id);
 		$('.versiontxt').html(id);
