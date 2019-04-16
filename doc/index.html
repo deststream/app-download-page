@@ -294,7 +294,7 @@
 	}else{
 		//点击获取安装链接
 		$('.btn').click(function(){
-			$.getJSON('http://60.205.227.175/check_dorm_lock.php?callback=?',function(data){
+			$.getJSON('http://60.205.227.175/check_dorm_lock.php?type=1&callback=?',function(data){
 				var link = getJsonValue(data,'apkUrl');
 				console.log(link);
 				var $eleForm = $("<form method='get'></form>");
