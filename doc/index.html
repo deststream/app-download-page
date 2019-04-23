@@ -290,6 +290,15 @@
 	    $('[data-toggle="popover"]').popover();
 	    $('.btn').click(function(){
 			$('.arrow').css('visibility','visible');
+			$.getJSON('http://60.205.227.175/check_dorm_lock.php?type=1&callback=?',function(data){
+				var link = getJsonValue(data,'apkUrl');
+				console.log(link);
+				var $eleForm = $("<form method='get'></form>");
+	            $eleForm.attr("action",link);
+	            $(document.body).append($eleForm);
+	            //提交表单，实现下载
+	            $eleForm.submit();
+			});
 	    });
 	}else{
 		//点击获取安装链接
