@@ -226,7 +226,7 @@
     } else {
         //点击获取安装链接
         $('.btn').click(function () {
-            $.getJSON('http://47.98.33.233/check_app_phone.php?callback=?', function (data) {
+            $.getJSON('http://60.205.227.175/check_app_phone.php?callback=?', function (data) {
                 var link = getJsonValue(data, 'apkUrl');
                 console.log(link);
                 location.href = link;
@@ -234,7 +234,7 @@
         });
     }
     //获取版本号，有跨域问题
-    $.getJSON('http://47.98.33.233/check_app_phone.php?callback=?', function (data) {
+    $.getJSON('http://60.205.227.175/check_app_phone.php?callback=?', function (data) {
         var id = getJsonValue(data, 'versionId');
         console.log(id);
         $('.versiontxt').html(id);
